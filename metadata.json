@@ -1,0 +1,6 @@
+{
+  "name": "Language Graphic Creator",
+  "description": "Create customizable language study graphics and flashcards for Chinese, Korean, and Russian without AI or complex servers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
