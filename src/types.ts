@@ -67,8 +67,12 @@ export interface CardData {
   brandingText: string; // e.g. "Yvette Mandarin ♥"
   showSocialIcons: boolean; // Instagram, Youtube, TikTok
 
-  // Decorative Sticker
-  stickerKey: string; // e.g. 'boba', 'cherry_blossom', 'matryoshka', 'kimchi', 'coffee', 'heart_star'
+  // Decorative Stickers
+  topSticker1?: string; // Top header left sticker/emoji (e.g. '💬', '✨', '🌸', '🎀', '👑')
+  topSticker2?: string; // Top header right sticker/emoji (e.g. '⭐', '💖', '🧋', '☕', '🍃')
+  stickerKey: string; // e.g. 'boba', 'cherry_blossom', 'matryoshka', 'coffee', 'star', 'heart_star'
+  stickerCustomUrl?: string; // Custom uploaded sticker image URL
+  stickerSize?: number; // e.g. 30 to 80px (default 48)
 
   // Styling properties
   themeId: string; // e.g. 'kawaii_pink', 'matcha_mint', 'journal_scrapbook', 'korean_lavender', 'dark_study', 'warm_peach', 'ink_carmine'

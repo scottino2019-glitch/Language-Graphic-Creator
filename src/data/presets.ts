@@ -57,7 +57,10 @@ export const CHINESE_PRESET: CardData = {
   brandingText: 'Yvette Mandarin ♥',
   showSocialIcons: true,
 
+  topSticker1: '💬',
+  topSticker2: '⭐',
   stickerKey: 'boba',
+  stickerSize: 48,
   themeId: 'kawaii_pink',
   aspectRatio: '9:16',
 
@@ -135,7 +138,10 @@ export const KOREAN_PRESET: CardData = {
   brandingText: 'Sora Korean Study ♥',
   showSocialIcons: true,
 
+  topSticker1: '✨',
+  topSticker2: '🌸',
   stickerKey: 'cherry_blossom',
+  stickerSize: 48,
   themeId: 'korean_lavender',
   aspectRatio: '9:16',
 
@@ -215,7 +221,10 @@ export const RUSSIAN_PRESET: CardData = {
   brandingText: 'Anya Russian Notes ♥',
   showSocialIcons: true,
 
+  topSticker1: '🎀',
+  topSticker2: '⭐',
   stickerKey: 'matryoshka',
+  stickerSize: 48,
   themeId: 'journal_scrapbook',
   aspectRatio: '9:16',
 

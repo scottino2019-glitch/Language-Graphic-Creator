@@ -129,10 +129,10 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
               </div>
             </div>
 
-            {/* Decorative Icon */}
-            <div className="flex items-center gap-1.5 text-2xl opacity-90">
-              <span>💬</span>
-              <span>⭐</span>
+            {/* Decorative Top Stickers */}
+            <div className="flex items-center gap-1.5 text-2xl opacity-90 drop-shadow-xs">
+              <span>{cardData.topSticker1 !== undefined ? cardData.topSticker1 : '💬'}</span>
+              <span>{cardData.topSticker2 !== undefined ? cardData.topSticker2 : '⭐'}</span>
             </div>
           </div>
         </div>
@@ -328,7 +328,14 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
 
           {/* Sticker Icon */}
           <div className="flex items-center gap-1">
-            <StickerIcon stickerKey={cardData.stickerKey} className="w-12 h-12" />
+            <StickerIcon
+              stickerKey={cardData.stickerKey}
+              customUrl={cardData.stickerCustomUrl}
+              style={{
+                width: `${cardData.stickerSize || 48}px`,
+                height: `${cardData.stickerSize || 48}px`,
+              }}
+            />
           </div>
         </div>
 

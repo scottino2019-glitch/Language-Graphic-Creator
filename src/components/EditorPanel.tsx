@@ -15,9 +15,10 @@ import {
 } from 'lucide-react';
 
 import { CHINESE_PRESET, KOREAN_PRESET, RUSSIAN_PRESET, SAMPLE_LIBRARY } from '../data/presets';
-import { AVATAR_PRESETS, PHOTO_PRESETS, STICKER_PRESETS } from '../data/stickers';
+import { AVATAR_PRESETS, PHOTO_PRESETS, STICKER_PRESETS, TOP_STICKER_PRESETS } from '../data/stickers';
 import { THEMES } from '../data/themes';
 import { AspectRatioType, CardData, LanguageType, RelatedWord } from '../types';
+import { AvatarPreset, StickerIcon } from './IllustrationAssets';
 import { AVAILABLE_FONTS } from './FontLoader';
 
 interface EditorPanelProps {
@@ -105,6 +106,21 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
         update({
           photoUrl: uploadEvent.target?.result as string,
           photoPreset: 'custom',
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // File upload for custom sticker
+  const handleStickerUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (uploadEvent) => {
+        update({
+          stickerCustomUrl: uploadEvent.target?.result as string,
+          stickerKey: 'custom',
         });
       };
       reader.readAsDataURL(file);
@@ -843,11 +859,11 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Lanterne Rosse',
-                          url: 'https://images.unsplash.com/photo-1582379488743-cc42257bd033?crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1528164344705-475426879e0d?auto=format&fit=crop&w=300&q=80',
                         },
                         {
                           name: 'Tè & Matcha',
-                          url: 'https://images.unsplash.com/photo-1745828186631-39c4e81107db?crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80',
                         },
                         {
                           name: 'Seoul Sunset',
@@ -855,7 +871,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Piazza Rossa',
-                          url: 'https://images.unsplash.com/photo-1547448415-e9f5b28e570d?crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1513326718677-b964603b136d?auto=format&fit=crop&w=300&q=80',
                         },
                         {
                           name: 'Caffè & Libri',
@@ -863,7 +879,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Gatto Studio',
-                          url: 'https://images.unsplash.com/photo-1536589961747-e239b2abbec2?crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80',
                         },
                       ].map((item) => (
                         <button
@@ -978,15 +994,22 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                 {AVATAR_PRESETS.map((av) => (
                   <button
                     key={av.key}
-                    onClick={() => update({ avatarPreset: av.key })}
+                    onClick={() =>
+                      update({
+                        avatarPreset: av.key,
+                        avatarUrl: av.key === 'custom' ? cardData.avatarUrl : '',
+                      })
+                    }
                     className={`p-2 rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer transition-all ${
                       cardData.avatarPreset === av.key
-                        ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300'
+                        ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300 scale-105'
                         : 'border-slate-200 hover:bg-white'
                     }`}
                   >
-                    <span className="text-xl">{av.emoji}</span>
-                    <span className="text-[10px] text-slate-700 truncate">{av.name}</span>
+                    <div className="w-8 h-8 flex items-center justify-center">
+                      <AvatarPreset preset={av.key} customUrl={cardData.avatarUrl} className="w-8 h-8" />
+                    </div>
+                    <span className="text-[10px] text-slate-700 font-bold truncate">{av.name}</span>
                   </button>
                 ))}
               </div>
@@ -1005,25 +1028,142 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
               </div>
             </div>
 
-            {/* STICKER DECORATIVO IN BASSO */}
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2">
-              <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">
-                Sticker Icona In Basso
+            {/* STICKERS IN ALTO (INTESTAZIONE) */}
+            <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-200/90 space-y-3">
+              <span className="text-xs font-extrabold text-amber-950 uppercase tracking-wider block">
+                ✨ Stickers In Alto (Header)
               </span>
-              <div className="grid grid-cols-5 gap-2">
+
+              {/* Sticker Sinistro (Top Left) */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-slate-700 flex items-center justify-between">
+                  <span>Sticker Sinistro (Sinistra):</span>
+                  <input
+                    type="text"
+                    value={cardData.topSticker1 !== undefined ? cardData.topSticker1 : '💬'}
+                    onChange={(e) => update({ topSticker1: e.target.value })}
+                    className="w-12 text-center text-sm px-1 py-0.5 border border-slate-300 rounded font-bold bg-white"
+                    maxLength={3}
+                  />
+                </label>
+                <div className="flex flex-wrap gap-1">
+                  {TOP_STICKER_PRESETS.slice(0, 10).map((st) => (
+                    <button
+                      key={`top1_${st.emoji}`}
+                      onClick={() => update({ topSticker1: st.emoji })}
+                      className={`w-7 h-7 rounded-lg border text-sm flex items-center justify-center transition-all cursor-pointer ${
+                        (cardData.topSticker1 || '💬') === st.emoji
+                          ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300 scale-105'
+                          : 'border-slate-200 bg-white hover:bg-slate-100'
+                      }`}
+                      title={st.label}
+                    >
+                      {st.emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Sticker Destro (Top Right) */}
+              <div className="space-y-1.5 pt-1 border-t border-amber-200/60">
+                <label className="text-[11px] font-bold text-slate-700 flex items-center justify-between">
+                  <span>Sticker Destro (Destra):</span>
+                  <input
+                    type="text"
+                    value={cardData.topSticker2 !== undefined ? cardData.topSticker2 : '⭐'}
+                    onChange={(e) => update({ topSticker2: e.target.value })}
+                    className="w-12 text-center text-sm px-1 py-0.5 border border-slate-300 rounded font-bold bg-white"
+                    maxLength={3}
+                  />
+                </label>
+                <div className="flex flex-wrap gap-1">
+                  {TOP_STICKER_PRESETS.slice(1).map((st) => (
+                    <button
+                      key={`top2_${st.emoji}`}
+                      onClick={() => update({ topSticker2: st.emoji })}
+                      className={`w-7 h-7 rounded-lg border text-sm flex items-center justify-center transition-all cursor-pointer ${
+                        (cardData.topSticker2 || '⭐') === st.emoji
+                          ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300 scale-105'
+                          : 'border-slate-200 bg-white hover:bg-slate-100'
+                      }`}
+                      title={st.label}
+                    >
+                      {st.emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* STICKER DECORATIVO IN BASSO */}
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">
+                  🎨 Sticker Icona In Basso
+                </span>
+                <span className="text-[10px] text-pink-600 font-bold bg-pink-50 px-2 py-0.5 rounded-full border border-pink-200">
+                  {cardData.stickerKey}
+                </span>
+              </div>
+
+              {/* Sticker Grid with live visual renders */}
+              <div className="grid grid-cols-4 gap-2">
                 {STICKER_PRESETS.map((st) => (
                   <button
                     key={st.key}
-                    onClick={() => update({ stickerKey: st.key })}
-                    className={`p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all ${
+                    onClick={() =>
+                      update({
+                        stickerKey: st.key,
+                        stickerCustomUrl: st.key === 'custom' ? cardData.stickerCustomUrl : '',
+                      })
+                    }
+                    className={`p-2 rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer transition-all ${
                       cardData.stickerKey === st.key
-                        ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300'
-                        : 'border-slate-200 hover:bg-white'
+                        ? 'border-pink-500 bg-pink-100 ring-2 ring-pink-300 scale-105'
+                        : 'border-slate-200 bg-white hover:bg-slate-100'
                     }`}
                   >
-                    <span className="text-2xl">{st.emoji}</span>
+                    <div className="w-8 h-8 flex items-center justify-center">
+                      <StickerIcon
+                        stickerKey={st.key}
+                        customUrl={st.key === 'custom' ? cardData.stickerCustomUrl : undefined}
+                        className="w-8 h-8"
+                      />
+                    </div>
+                    <span className="text-[10px] text-slate-700 font-bold truncate max-w-full">
+                      {st.name}
+                    </span>
                   </button>
                 ))}
+              </div>
+
+              {/* Sticker Size Slider */}
+              <div className="pt-2 border-t border-slate-200/80 flex items-center justify-between gap-3">
+                <span className="text-xs font-bold text-slate-700 whitespace-nowrap">Dimensione Sticker:</span>
+                <input
+                  type="range"
+                  min="28"
+                  max="80"
+                  value={cardData.stickerSize || 48}
+                  onChange={(e) => update({ stickerSize: Number(e.target.value) })}
+                  className="flex-1 accent-pink-500 cursor-pointer"
+                />
+                <span className="text-xs font-extrabold text-pink-600 w-8 text-right">
+                  {cardData.stickerSize || 48}px
+                </span>
+              </div>
+
+              {/* Custom Sticker Image Upload */}
+              <div className="pt-1 flex items-center gap-2">
+                <label className="flex-1 px-3 py-1.5 bg-pink-50 hover:bg-pink-100 text-pink-800 border border-pink-200 text-xs font-bold rounded-lg cursor-pointer text-center transition-colors">
+                  🖼️ Carica Sticker Personalizzato
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleStickerUpload}
+                    className="hidden"
+                  />
+                </label>
               </div>
             </div>
 
