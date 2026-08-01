@@ -843,11 +843,11 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Lanterne Rosse',
-                          url: 'https://images.unsplash.com/photo-1528164344705-475426879e0d?auto=format&fit=crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1582379488743-cc42257bd033?crop&w=300&q=80',
                         },
                         {
                           name: 'Tè & Matcha',
-                          url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1745828186631-39c4e81107db?crop&w=300&q=80',
                         },
                         {
                           name: 'Seoul Sunset',
@@ -855,7 +855,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Piazza Rossa',
-                          url: 'https://images.unsplash.com/photo-1513326718677-b964603b136d?auto=format&fit=crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1547448415-e9f5b28e570d?crop&w=300&q=80',
                         },
                         {
                           name: 'Caffè & Libri',
@@ -863,7 +863,7 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
                         },
                         {
                           name: 'Gatto Studio',
-                          url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80',
+                          url: 'https://images.unsplash.com/photo-1536589961747-e239b2abbec2?crop&w=300&q=80',
                         },
                       ].map((item) => (
                         <button
